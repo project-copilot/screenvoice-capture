@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenshot Enhancer</title>
+  <style>
+    body { 
+      width: 300px; 
+      padding: 10px; 
+      font-family: Arial, sans-serif;
+    }
+    #capturedImage { 
+      max-width: 100%; 
+      height: auto;
+    }
+    .control { 
+      margin: 10px 0; 
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    select, input[type="color"], input[type="range"] {
+      width: 100%;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <button id="captureBtn">Capture Screenshot</button>
+  <div id="editor" style="display:none;">
+    <img id="capturedImage" alt="Captured screenshot">
+    <div class="control">
+      <label for="bgType">Background Type:</label>
+      <select id="bgType">
+        <option value="solid">Solid Color</option>
+        <option value="gradient">Gradient</option>
+      </select>
+    </div>
+    <div id="solidColorControl" class="control">
+      <label for="bgColor">Solid Color:</label>
+      <input type="color" id="bgColor">
+    </div>
+    <div id="gradientControl" class="control" style="display:none;">
+      <label for="gradientSelect">Gradient:</label>
+      <select id="gradientSelect">
+        <option value="blue-purple">Blue to Purple</option>
+        <option value="green-blue">Green to Blue</option>
+        <option value="orange-pink">Orange to Pink</option>
+        <option value="custom">Custom Gradient</option>
+      </select>
+    </div>
+    <div id="customGradientControl" class="control" style="display:none;">
+      <label for="gradientColor1">Color 1:</label>
+      <input type="color" id="gradientColor1">
+      <label for="gradientColor2">Color 2:</label>
+      <input type="color" id="gradientColor2">
+    </div>
+    <div class="control">
+      <label for="padding">Padding:</label>
+      <input type="range" id="padding" min="0" max="50" value="0">
+    </div>
+    <button id="saveBtn">Save Image</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
