@@ -5,5 +5,7 @@ ScreenVoice Capture Chrome Extension
 
 This project is based on the tutorial from [amrrs/screenshot-chromextension](https://github.com/amrrs/screenshot-chromextension) and the accompanying [YouTube video](https://www.youtube.com/watch?v=EvEvK8yQchw). 
 
+![Screenshot Initial](screenshot-initial.jpg)
+
 The code has been migrated from Chrome extensions Manifest V2 to V3.
 
