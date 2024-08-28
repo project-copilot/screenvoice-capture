@@ -2,10 +2,11 @@
     "manifest_version": 3,
     "name": "Screenshot Enhancer",
     "version": "1.0",
-    "description": "Capture and enhance screenshots",
+    "description": "Capture and enhance screenshots with voice input",
     "permissions": [
       "activeTab",
-      "tabs"
+      "tabs",
+      "storage"
     ],
     "host_permissions": [
       "<all_urls>"

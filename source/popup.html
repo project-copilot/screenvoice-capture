@@ -36,6 +36,22 @@
     button:hover {
       background-color: #45a049;
     }
+    #voiceCaptureBtn {
+      background-color: #2196F3;
+      margin-top: 10px;
+    }
+    #voiceCaptureBtn:hover {
+      background-color: #0b7dda;
+    }
+    #voiceCaptureBtn.recording {
+      background-color: #f44336;
+    }
+    #voiceOutput {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      min-height: 50px;
+    }
   </style>
 </head>
 <body>
@@ -74,6 +90,8 @@
     </div>
     <button id="saveBtn">Save Image</button>
   </div>
+  <button id="voiceCaptureBtn">Start Voice Capture</button>
+  <div id="voiceOutput"></div>
   <script src="popup.js"></script>
 </body>
 </html>
