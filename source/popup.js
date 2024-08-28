@@ -43,7 +43,16 @@ function updateImage() {
   img.style.padding = padding;
 }
 
-// Add event listeners after functions are declared
+// Add these functions at the beginning of the file
+function checkSpeechRecognitionSupport() {
+  return 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+}
+
+function createSpeechRecognitionObject() {
+  return new (window.webkitSpeechRecognition || window.SpeechRecognition)();
+}
+
+// Add this to your existing DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM fully loaded and parsed');
 
@@ -133,4 +142,61 @@ document.addEventListener('DOMContentLoaded', function() {
     link.href = canvas.toDataURL();
     link.click();
   });
+
+  const voiceCaptureBtn = document.getElementById('voiceCaptureBtn');
+  const voiceOutput = document.getElementById('voiceOutput');
+
+  if (checkSpeechRecognitionSupport()) {
+    const recognition = createSpeechRecognitionObject();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    let isRecording = false;
+
+    voiceCaptureBtn.addEventListener('click', () => {
+      if (!isRecording) {
+        recognition.start();
+        voiceCaptureBtn.textContent = 'Stop Voice Capture';
+        voiceCaptureBtn.classList.add('recording');
+      } else {
+        recognition.stop();
+        voiceCaptureBtn.textContent = 'Start Voice Capture';
+        voiceCaptureBtn.classList.remove('recording');
+      }
+      isRecording = !isRecording;
+    });
+
+    recognition.onresult = (event) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        } else {
+          interimTranscript += event.results[i][0].transcript;
+        }
+      }
+
+      voiceOutput.innerHTML = finalTranscript + '<i style="color: #999;">' + interimTranscript + '</i>';
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      voiceOutput.textContent = 'Error: ' + event.error;
+    };
+
+    recognition.onend = () => {
+      isRecording = false;
+      voiceCaptureBtn.textContent = 'Start Voice Capture';
+      voiceCaptureBtn.classList.remove('recording');
+    };
+  } else {
+    voiceCaptureBtn.disabled = true;
+    voiceCaptureBtn.textContent = 'Voice Capture Not Supported';
+    voiceOutput.textContent = 'Your browser does not support the Web Speech API. Please use a compatible browser like Chrome.';
+  }
 });
+
+// ... rest of the existing code ...
