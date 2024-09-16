@@ -1,115 +1,72 @@
 Parent: 
 
-[Epic 02 - Google Authentication Implementation](epic-02.md)
+[Epic 03 - Integrate Stripe for Subscription Management](epic-03.md)
 
 User Story
 
 Title:
 
-Design User-Friendly Sign-In Interface
+Create Subscription through Stripe
 
 Description:
 
-As a UX/UI designer, I want to design a user-friendly interface for the Google sign-in process, ensuring that it is intuitive and aligns with the overall extension design.
+User:
+As a user of the Chrome extension
+
+Action:
+I want to create a subscription through Stripe
+
+Outcome:
+So that I can access premium features, including voice-to-text conversion
 
 Acceptance Criteria:
 
-The sign-in interface should be visually consistent with the existing Chrome extension design.
+The Chrome extension provides a clear option to initiate a subscription through Stripe.
 
-The interface must provide clear instructions for users on how to sign in using their Google account.
+Users can create a subscription via the Stripe Customer Portal, which opens in a new tab.
 
-The sign-in process should include error handling for invalid credentials and provide user-friendly feedback.
+The system sends a confirmation message upon successful subscription creation.
 
-The design should be responsive and accessible, ensuring usability across different devices and for users with disabilities.
+Users can manage their subscription (e.g., upgrade, downgrade, cancel) through the Stripe Customer Portal.
 
-The interface must integrate seamlessly with the backend authentication flow, allowing for secure token handling.
+The subscription status is stored and updated in the backend database.
+
+Users receive notifications regarding their subscription status and upcoming billing.
 
 Technical Reference:
 
-Design User Interface (UX/UI Designer)
+Frontend Development:
 
-Create wireframes and mockups for the Google sign-in interface.
+Implement a button in the Chrome extension to initiate the subscription process.
 
-Ensure the design adheres to Google's Material Design guidelines for consistency.
+Create a function to open the Stripe Customer Portal URL in a new tab.
 
-Conduct usability testing with a sample group to gather feedback on the interface.
+Backend Development:
 
-Implement Frontend Functionality (Frontend Developer)
+Set up an API endpoint to create a Stripe Customer Portal session.
 
-Develop the sign-in interface using HTML, CSS, and JavaScript.
+Implement webhook handling to update subscription status in the database.
 
-Integrate the Chrome Identity API to initiate the Google sign-in process.
+Integration:
 
-Handle authentication errors and display appropriate messages to users.
+Ensure real-time synchronization between the Stripe API and the backend for accurate subscription tracking.
 
-Validate Authentication Tokens (Backend Developer)
-
-Set up the backend to validate Google tokens received from the frontend.
-
-Ensure that user sessions are created or updated based on successful authentication.
-
-Implement security measures to protect user data during the sign-in process.
-
-Implementation Steps:
-
-Design User Interface:
-
-Create wireframes and mockups (sequential)
-
-Conduct usability testing and iterate on feedback (sequential)
-
-Implement Frontend Functionality:
-
-Develop the sign-in interface (sequential)
-
-Integrate Chrome Identity API (sequential)
-
-Test the sign-in process with various user scenarios (parallelizable)
-
-Validate Authentication Tokens:
-
-Set up backend token validation (sequential)
-
-Test the authentication flow with valid and invalid tokens (parallelizable)
+Validate subscription status before granting access to premium features.
 
 Scenarios:
 
-Successful Sign-In:
+Happy Path:
 
-Precondition: The user is on the sign-in interface.
+User clicks the subscription button, is redirected to the Stripe Customer Portal, and successfully creates a subscription.
 
-User Action: The user enters valid Google credentials and submits the form.
+Subscription Management:
 
-Expected Outcome: The system successfully authenticates the user and redirects them to the main extension interface.
+User accesses the Stripe Customer Portal to upgrade their subscription and receives a confirmation of the change.
 
-Postcondition: The user is logged in and can access premium features.
+Subscription Cancellation:
 
-Invalid Credentials:
+User cancels their subscription through the Stripe Customer Portal and receives a notification of the cancellation.
 
-Precondition: The user is on the sign-in interface.
+Error Handling:
 
-User Action: The user enters invalid Google credentials and submits the form.
-
-Expected Outcome: The system displays an error message indicating that the credentials are incorrect.
-
-Postcondition: The user is prompted to try again without losing their input.
-
-Network Error:
-
-Precondition: The user is on the sign-in interface.
-
-User Action: The user submits the sign-in form, but there is a network issue.
-
-Expected Outcome: The system displays an error message indicating a network error and suggests checking the connection.
-
-Postcondition: The user is informed of the issue and can attempt to sign in again later.
-
-Accessibility Check:
-
-Precondition: The user is on the sign-in interface.
-
-User Action: The user navigates the interface using a screen reader.
-
-Expected Outcome: The screen reader accurately describes the interface elements and instructions.
-
-Postcondition: The interface is confirmed to be accessible for users with disabilities.
+User attempts to create a subscription but encounters an error (e.g., payment failure); the system displays an appropriate error message.

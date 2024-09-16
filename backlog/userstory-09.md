@@ -1,83 +1,60 @@
 Parent: 
 
-[Epic 03 - Integrate Stripe for Subscription Management](epic-03.md)
+[Epic 04 - Convert Voice-to-Text Feature to Premium](epic-04.md)
 
 User Story
 
 Title:
 
-Set Up Webhooks for Subscription Management
+Implement Feature Gating
 
 Description:
 
-As a developer, I want to set up webhooks to handle subscription creation, updates, and cancellations so that the backend remains in sync with Stripe's subscription status.
+User:
+As a developer working on the Chrome extension
+
+Action:
+I want to implement feature gating to restrict access to the voice-to-text functionality for non-subscribed users
+
+Outcome:
+So that only subscribed users can utilize this premium feature, ensuring a secure and exclusive experience for paying customers
 
 Acceptance Criteria:
 
-The backend should be able to receive and process webhook events from Stripe for subscription creation, updates, and cancellations.
+The system checks the user's subscription status before enabling the voice-to-text feature.
 
-Upon receiving a subscription creation event, the backend should create a corresponding user subscription record in the database.
+Non-subscribed users receive a notification indicating that the feature is available only to premium subscribers.
 
-Upon receiving a subscription update event, the backend should update the existing user subscription record with the new status and details.
+All API calls related to the voice-to-text functionality are validated against the user's subscription status on the server.
 
-Upon receiving a subscription cancellation event, the backend should mark the user subscription as canceled in the database.
+The Chrome extension provides a clear pathway for users to subscribe to the premium tier if they wish to access the voice-to-text feature.
 
-The system should log all webhook events for auditing and troubleshooting purposes.
-
-The backend should validate the authenticity of incoming webhook requests from Stripe to ensure security.
+Subscription status is updated in real-time, reflecting any changes made through the Stripe Customer Portal.
 
 Technical Reference:
 
-Set Up Webhook Endpoint (Backend Developer)
+Implement client-side checks in the Chrome extension to verify subscription status stored in local storage.
 
-Create a secure endpoint in the backend to receive webhook events from Stripe.
+Develop server-side validation logic to ensure that only users with an active subscription can access the voice-to-text API endpoints.
 
-Implement authentication to verify that incoming requests are from Stripe.
+Integrate Stripe webhooks to update user subscription status in the database upon changes made in the Stripe Customer Portal.
 
-Ensure the endpoint can handle different types of webhook events related to subscriptions.
+Ensure that the user interface clearly indicates the premium features and guides users on how to subscribe.
 
-Process Subscription Creation Event (Backend Developer)
+Scenarios:
 
-Implement logic to create a new user subscription record in the database upon receiving a subscription creation event.
+Happy Path:
 
-Ensure that all relevant subscription details (e.g., user ID, subscription status, plan details) are captured.
+A subscribed user accesses the voice-to-text feature and successfully utilizes it without any restrictions.
 
-Process Subscription Update Event (Backend Developer)
+Non-Subscribed User:
 
-Implement logic to update the existing user subscription record in the database when a subscription update event is received.
+A non-subscribed user attempts to access the voice-to-text feature and receives a notification prompting them to subscribe for access.
 
-Ensure that the updated status and any other relevant details are accurately reflected in the database.
+Subscription Update:
 
-Process Subscription Cancellation Event (Backend Developer)
+A user upgrades their subscription through the Stripe Customer Portal and immediately gains access to the voice-to-text feature.
 
-Implement logic to mark the user subscription as canceled in the database upon receiving a cancellation event.
+API Call Validation:
 
-Ensure that any necessary cleanup or notifications are handled appropriately.
-
-Log Webhook Events (Backend Developer)
-
-Implement logging for all received webhook events to facilitate auditing and troubleshooting.
-
-Ensure that logs capture essential information such as event type, timestamp, and any relevant payload data.
-
-Implementation Steps:
-
-Set Up Webhook Endpoint:
-
-Create the endpoint and implement authentication (sequential)
-
-Test the endpoint with sample webhook events from Stripe (sequential)
-
-Process Subscription Events:
-
-Implement logic for handling subscription creation, updates, and cancellations (sequential)
-
-Test each processing logic with various event scenarios (parallelizable)
-
-Log Webhook Events:
-
-Implement logging functionality for webhook events (sequential)
-
-Test logging to ensure all events are captured correctly (parallelizable)
-
-The setup of webhooks for subscription management can be implemented by a backend developer familiar with Stripe's API and webhooks. The steps should be executed sequentially to ensure proper handling of events, with some testing steps being parallelizable to optimize time.
+A non-subscribed user attempts to make an API call to the voice-to-text functionality, and the server responds with an error indicating insufficient permissions.

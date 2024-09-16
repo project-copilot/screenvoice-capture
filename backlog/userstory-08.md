@@ -1,107 +1,56 @@
 Parent: 
 
-[Epic 03 - Integrate Stripe for Subscription Management](epic-03.md)
+[Epic 04 - Convert Voice-to-Text Feature to Premium](epic-04.md)
 
 User Story
 
 Title:
 
-Integrate Stripe Customer Portal
+Notification for Premium Feature
 
 Description:
 
-As a user of the Chrome extension,  
-I want to access the Stripe Customer Portal from the extension,  
-So that I can create and manage my subscriptions seamlessly and unlock premium features.
+User:
+As a user of the Chrome extension
+
+Action:
+I want to receive a notification indicating that the voice-to-text feature is a premium feature
+
+Outcome:
+So that I understand the access requirements and can make an informed decision about subscribing
 
 Acceptance Criteria:
 
-The user should be able to initiate the subscription process from the Chrome extension.
+A notification is displayed when the user attempts to access the voice-to-text feature without an active subscription.
 
-The system should create a Stripe Customer Portal session when the user requests to manage their subscription.
+The notification clearly states that the voice-to-text feature is part of the premium tier.
 
-The Chrome extension should open the Stripe Customer Portal in a new tab for the user to create or manage their subscription.
+The notification includes a call-to-action button that directs the user to the subscription page.
 
-The backend should handle Stripe webhooks to synchronize subscription status and update the user’s subscription information in the database.
+The notification is visually distinct and easily noticeable within the extension interface.
 
-The system should validate the user's subscription status before allowing access to premium features.
+The notification should not appear if the user already has an active premium subscription.
 
 Technical Reference:
 
-Create Stripe Customer Portal Session (Backend Developer)
+Implement a notification system within the Chrome extension to handle alerts.
 
-Implement an API endpoint to create a Stripe Customer Portal session.
+Ensure the notification is triggered based on the user's subscription status stored in the database.
 
-Ensure the endpoint validates the user's authentication and retrieves the necessary subscription details.
+Use the Stripe API to verify the user's subscription status when they attempt to access the voice-to-text feature.
 
-Test the session creation process to ensure it works correctly with valid and invalid user data.
-
-Handle Stripe Webhooks (Backend Developer)
-
-Set up webhook endpoints to receive events from Stripe regarding subscription changes.
-
-Implement logic to update the user's subscription status in the database based on the webhook events.
-
-Test the webhook handling to ensure it processes events accurately and updates the database accordingly.
-
-Validate Subscription Status (Frontend Developer)
-
-Implement logic in the Chrome extension to check the user's subscription status before enabling premium features.
-
-Ensure that the extension provides clear feedback to the user regarding their subscription status.
-
-Test the validation process to ensure it accurately reflects the user's current subscription status.
-
-Implementation Steps:
-
-Create Stripe Customer Portal Session:
-
-Develop the API endpoint for session creation (sequential)
-
-Test the session creation process (sequential)
-
-Handle Stripe Webhooks:
-
-Set up webhook endpoints (sequential)
-
-Implement event processing logic (sequential)
-
-Test webhook handling (parallelizable)
-
-Validate Subscription Status:
-
-Implement subscription status validation in the extension (sequential)
-
-Test the validation logic (parallelizable)
+Design the notification to be responsive and user-friendly, adhering to Chrome extension UI guidelines.
 
 Scenarios:
 
-Initiate Subscription Process:
+Happy Path:
 
-Precondition: The user is logged into the Chrome extension.
+User attempts to use the voice-to-text feature without a subscription and receives a notification explaining the premium requirement.
 
-User Action: The user clicks on the subscription management option.
+Subscription Active:
 
-Expected Outcome: The system creates a Stripe Customer Portal session and opens it in a new tab.
+User with an active subscription accesses the voice-to-text feature without receiving any notification.
 
-Postcondition: The user is able to manage their subscription in the Stripe Customer Portal.
+Notification Interaction:
 
-Handle Subscription Update via Webhook:
-
-Precondition: The user has an active subscription.
-
-User Action: The user updates their subscription in the Stripe Customer Portal.
-
-Expected Outcome: The system receives a webhook event and updates the user's subscription status in the database.
-
-Postcondition: The user's subscription status is accurately reflected in the Chrome extension.
-
-Validate Subscription Status:
-
-Precondition: The user attempts to access a premium feature.
-
-User Action: The user clicks on a premium feature in the extension.
-
-Expected Outcome: The system checks the user's subscription status and either grants or denies access based on the current status.
-
-Postcondition: The user receives appropriate feedback regarding their access to premium features.
+User clicks the notification's call-to-action button and is redirected to the subscription page for premium features.

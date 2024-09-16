@@ -1,103 +1,62 @@
 Parent: 
 
-[Epic 02 - Google Authentication Implementation](epic-02.md)
+[Epic 03 - Integrate Stripe for Subscription Management](epic-03.md)
 
 User Story
 
 Title:
 
-Establish Session Management System
+Handle Subscription Updates via Webhooks
 
 Description:
 
-As a developer, I want to establish a session management system that maintains user login status and handles session expiration appropriately, ensuring a seamless user experience.
+User:
+As a developer integrating Stripe with the Chrome extension
+
+Action:
+I want to handle subscription updates via Stripe webhooks
+
+Outcome:
+So that user records remain in sync and accurately reflect their subscription status
 
 Acceptance Criteria:
 
-The system should allow users to log in using Google authentication, validating their credentials securely.
+The backend server receives webhook notifications from Stripe for subscription events (e.g., creation, updates, cancellations).
 
-Upon successful login, the system should create a session token that persists until the user logs out or the session expires.
+The server processes these webhook events to update the user subscription records in the database.
 
-The session should automatically expire after a predefined period of inactivity, prompting the user to log in again.
+The system validates the subscription status each time a user attempts to access premium features.
 
-The system should provide a mechanism for users to manually log out, invalidating their session token immediately.
+Appropriate error handling is implemented for failed webhook notifications, including retries and logging.
 
-The user interface should clearly indicate the login status and provide feedback during the login and logout processes.
+Documentation is provided for the webhook integration process, including security measures (e.g., verifying webhook signatures).
 
 Technical Reference:
 
-Implement Google Authentication (Frontend Developer)
+Implement a webhook endpoint on the backend to receive notifications from Stripe.
 
-Integrate Google Sign-In using the Chrome Identity API to initiate the authentication process.
+Use Stripe's official libraries to handle webhook events and verify their authenticity.
 
-Send the obtained Google token to the backend for validation.
+Update the database schema if necessary to accommodate any new fields related to subscription status.
 
-Handle authentication errors gracefully, providing user-friendly messages.
+Ensure that the webhook processing logic is idempotent to handle duplicate events gracefully.
 
-Create Session Management Logic (Backend Developer)
-
-Validate the Google token with the Google Auth API and create a session token upon successful validation.
-
-Store session tokens securely, ensuring they are associated with the correct user account.
-
-Implement session expiration logic based on inactivity, including a configurable timeout period.
-
-Develop Logout Functionality (Frontend and Backend Developer)
-
-Create a logout endpoint that invalidates the session token on the server.
-
-Update the user interface to reflect the logged-out state and provide feedback to the user.
-
-Implementation Steps:
-
-Implement Google Authentication:
-
-Set up Google Sign-In and token validation (sequential)
-
-Handle authentication errors and test the process (sequential)
-
-Create Session Management Logic:
-
-Implement session token creation and storage (sequential)
-
-Develop session expiration logic (sequential)
-
-Test session management under various scenarios (parallelizable)
-
-Develop Logout Functionality:
-
-Create and test the logout endpoint (sequential)
-
-Update the user interface for logout feedback (sequential)
+Set up monitoring and alerting for webhook failures to ensure timely resolution of issues.
 
 Scenarios:
 
-User Login:
+Happy Path:
 
-Precondition: The user is on the login page of the Chrome extension.
+A user creates a subscription through the Stripe Customer Portal, and the webhook notification is received and processed successfully, updating the user's record.
 
-User Action: The user clicks the "Sign in with Google" button.
+Subscription Update:
 
-Expected Outcome: The system initiates the Google authentication process and retrieves the user's information upon success.
+A user upgrades their subscription, and the webhook notification reflects this change, updating the database accordingly.
 
-Postcondition: The user is logged in and redirected to the main interface.
+Subscription Cancellation:
 
-Session Expiration:
+A user cancels their subscription, and the webhook notification triggers the appropriate updates in the user record, preventing access to premium features.
 
-Precondition: The user is logged in and has been inactive for the defined timeout period.
+Webhook Failure:
 
-User Action: The user attempts to access a feature after the timeout.
-
-Expected Outcome: The system prompts the user to log in again due to session expiration.
-
-Postcondition: The user is redirected to the login page.
-
-User Logout:
-
-Precondition: The user is logged in and on the main interface.
-
-User Action: The user clicks the "Logout" button.
-
-Expected Outcome: The system invalidates the session token and updates the user interface to reflect the logged-out state.
-
-Postcondition: The user is logged out and can no longer access premium features without logging in again.
+The server fails to process a webhook notification due to a temporary issue, and the system retries the processing after a defined interval, logging the failure for review.
